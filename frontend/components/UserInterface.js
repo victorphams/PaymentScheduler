@@ -1,21 +1,28 @@
-import { Box, Select, FormControl, InputLabel, MenuItem, Button } from "@mui/material";
+import {
+  Box,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Button,
+} from "@mui/material";
+import { padding } from "@mui/system";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function UserInterface() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const [country, setCountry] = React.useState('');
+  const [country, setCountry] = React.useState("");
 
   const handleChange = (event) => {
     setCountry(event.target.value);
   };
 
-
   return (
-    <Box sx={{ width: "80%" }}>
+    <Box sx={{ width: "60%" }}>
       <h1>Group 2</h1>
 
       <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -37,21 +44,22 @@ export default function UserInterface() {
               <MenuItem value={"Australia"}>Australia</MenuItem>
               <MenuItem value={"China"}>China</MenuItem>
               <MenuItem value={"South Africa"}>South Africa</MenuItem>
-
             </Select>
           </FormControl>
 
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
+            placeholderText="Start Date"
           />
 
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date)}
+            placeholderText="End Date"
           />
 
-          <button variant="outlined">Units of Time</button>
+          <button>Units of Time</button>
         </Box>
 
         <Box sx={{ marginLeft: "auto" }}>
@@ -62,10 +70,15 @@ export default function UserInterface() {
       <Box
         sx={{
           backgroundColor: "gray",
-          height: "100%",
-          alignItems: "stretch",
-          justify: "center",
+          height: "60%",
+          width: "60%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           spacing: "0",
+          overflow: "auto",
+          position: "absolute",
+          textAlign: "center",
         }}
       >
         <h1>Output</h1>
