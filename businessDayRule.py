@@ -22,7 +22,7 @@ class BusinessDayRule:
             currentHolidays = holidays.US()
 
             #Conditionals for which rule is activated, while the date violates a holiday or weekend, go to the next date available
-            while currentDate.weekday() > 0 and currentDate in currentHolidays :
+            while currentDate.weekday() >= 3 or currentDate in currentHolidays :
                 #Following: next business day
                 if currentRule == "following":
                     currentDate += datetime.timedelta(days = 1)
@@ -43,6 +43,8 @@ class BusinessDayRule:
                 #set previous date as current for the next scenario
                 previousDate = currentDate
             
+            print(currentDate.weekday())
+                
             #returns the correctDate using the rule that we have given
             return currentDate
 
