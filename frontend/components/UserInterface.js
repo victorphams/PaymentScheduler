@@ -52,10 +52,18 @@ export default function UserInterface() {
         country +
         "\n" +
         "Start Date: " +
-        startDate +
+        new Date(startDate).toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }) +
         "\n" +
         "End Date: " +
-        endDate +
+        new Date(endDate).toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }) +
         "\n" +
         "Frequency: " +
         frequency +
@@ -176,11 +184,13 @@ export default function UserInterface() {
         </Box>
 
         <Box sx={{ marginLeft: "auto" }}>
-          <button onClick={handleClick}>Search!</button>
+          <button onClick={handleClick}>Calculate!</button>
         </Box>
       </Box>
 
-      <CalendarOutput />
+      <Box fullWidth>
+        <CalendarOutput />
+      </Box>
     </Box>
   );
 }
