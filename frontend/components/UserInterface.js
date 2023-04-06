@@ -22,17 +22,9 @@ export default function UserInterface() {
   const [businessDayRule, setBusinessDayRule] = React.useState("");
   const [endMonthRule, setEndMonthRule] = React.useState(false);
 
-  const [events, setEvents] = useState([
-    { date: new Date("2023/03/03"), title: "Event 1" },
-    { date: new Date("2023/02/05"), title: "Event 2" },
-    { date: new Date("2023/03/17"), title: "Event 3" },
-    { date: new Date("2023/04/15"), title: "Event 4" },
-    { date: new Date("2023/03/30"), title: "Event 5" },
-    { date: new Date("2023/04/30"), title: "Event 5" },
-    { date: new Date("2023/04/25"), title: "Event 5" },
-  ]);
+  const [events, setEvents] = useState([]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     console.log(
       "Country: " +
         country +
@@ -61,9 +53,19 @@ export default function UserInterface() {
         endMonthRule
     );
 
-    setEvents([
-      { date: new Date("2023/04/03"), title: "Event 1" },
-    ]);
+    fetch("http://localhost:5000/paymentscheduler/usholidays").then(
+      (response) =>
+        response.json().then((data) => {
+          let dates = data.USholidays.map((event) => {
+            const eventDate = new Date(event[0]);
+            return {
+              date: eventDate,
+              title: event[1],
+            };
+          });
+          setEvents(dates);
+        })
+    );
   };
 
   return (
