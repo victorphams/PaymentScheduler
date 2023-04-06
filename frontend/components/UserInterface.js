@@ -68,7 +68,7 @@ export default function UserInterface() {
 
   return (
     <Box sx={{ width: "60%" }}>
-      <h1>Elmo 4 Lyfe</h1>
+      <h1>MSCI: Payment Scheduler</h1>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box
