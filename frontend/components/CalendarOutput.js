@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import { Box } from "@mui/material";
 
-const CalendarOutput = () => {
+const CalendarOutput = ({events}) => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [events, setEvents] = useState([
-    { date: new Date("2023/03/03"), title: "Event 1" },
-    { date: new Date("2023/02/05"), title: "Event 2" },
-    { date: new Date("2023/03/17"), title: "Event 3" },
-    { date: new Date("2023/04/13"), title: "Event 4" },
-    { date: new Date("2023/03/31"), title: "Event 5" },
-
-  ]);
 
   const highlightDates = events.map((event) => event.date);
 

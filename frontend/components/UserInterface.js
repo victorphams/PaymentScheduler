@@ -1,11 +1,14 @@
-import { Box, Select, FormControl, InputLabel, MenuItem } from "@mui/material";
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  Box,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import CalendarOutput from "./CalendarOutput";
-import dayjs, { Dayjs } from "dayjs";
-
-import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -17,34 +20,17 @@ export default function UserInterface() {
   const [country, setCountry] = React.useState("");
   const [frequency, setFrequency] = React.useState("");
   const [businessDayRule, setBusinessDayRule] = React.useState("");
-
   const [endMonthRule, setEndMonthRule] = React.useState(false);
 
-  // const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
-
-  const handleStartDateChange = (newValue) => {
-    setStartDate(newValue);
-  };
-
-  const handleEndDateChange = (newValue) => {
-    setEndDate(newValue);
-  };
-
-  const handleEndMonthRule = () => {
-    setEndMonthRule(!endMonthRule);
-  };
-
-  const handleChangeCountry = (event) => {
-    setCountry(event.target.value);
-  };
-
-  const handleChangeFrequency = (event) => {
-    setFrequency(event.target.value);
-  };
-
-  const handleChangeBusinessDayRule = (event) => {
-    setBusinessDayRule(event.target.value);
-  };
+  const [events, setEvents] = useState([
+    { date: new Date("2023/03/03"), title: "Event 1" },
+    { date: new Date("2023/02/05"), title: "Event 2" },
+    { date: new Date("2023/03/17"), title: "Event 3" },
+    { date: new Date("2023/04/15"), title: "Event 4" },
+    { date: new Date("2023/03/30"), title: "Event 5" },
+    { date: new Date("2023/04/30"), title: "Event 5" },
+    { date: new Date("2023/04/25"), title: "Event 5" },
+  ]);
 
   const handleClick = () => {
     console.log(
@@ -74,6 +60,10 @@ export default function UserInterface() {
         "End of Month Rule: " +
         endMonthRule
     );
+
+    setEvents([
+      { date: new Date("2023/04/03"), title: "Event 1" },
+    ]);
   };
 
   return (
@@ -96,7 +86,7 @@ export default function UserInterface() {
               id="demo-simple-select"
               value={country}
               label="Country"
-              onChange={handleChangeCountry}
+              onChange={(event) => setCountry(event.target.value)}
             >
               <MenuItem value={"United States"}>United States</MenuItem>
               <MenuItem value={"Brazil"}>Brazil</MenuItem>
@@ -112,14 +102,14 @@ export default function UserInterface() {
               label="Start Date"
               inputFormat="MM/DD/YYYY"
               value={startDate}
-              onChange={handleStartDateChange}
+              onChange={(newValue) => setStartDate(newValue)}
               renderInput={(params) => <TextField {...params} />}
             />
             <DesktopDatePicker
               label="End Date"
               inputFormat="MM/DD/YYYY"
               value={endDate}
-              onChange={handleEndDateChange}
+              onChange={(newValue) => setEndDate(newValue)}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
@@ -140,7 +130,7 @@ export default function UserInterface() {
               id="demo-simple-select"
               value={frequency}
               label="Frequency"
-              onChange={handleChangeFrequency}
+              onChange={(event) => setFrequency(event.target.value)}
             >
               <MenuItem value={"Annual"}>Annual</MenuItem>
               <MenuItem value={"Semiannual"}>Semiannual</MenuItem>
@@ -160,7 +150,7 @@ export default function UserInterface() {
               id="demo-simple-select"
               value={businessDayRule}
               label="Business Day Rule"
-              onChange={handleChangeBusinessDayRule}
+              onChange={(event) => setBusinessDayRule(event.target.value)}
             >
               <MenuItem value={"Following"}>Following</MenuItem>
               <MenuItem value={"Preceding"}>Preceding</MenuItem>
@@ -177,7 +167,8 @@ export default function UserInterface() {
             <input
               type="checkbox"
               checked={endMonthRule}
-              onChange={handleEndMonthRule}
+              onChange={() => setEndMonthRule(!endMonthRule)}
+              disabled={frequency === "Weekly"}
             ></input>
             End Month Rule
           </label>
@@ -189,7 +180,7 @@ export default function UserInterface() {
       </Box>
 
       <Box fullWidth>
-        <CalendarOutput />
+        <CalendarOutput events={events} />
       </Box>
     </Box>
   );
