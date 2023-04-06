@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Elmo 4 Lyfe</title>
-        <meta name="description" content="Elmo 4 Lyfe" />
+        <title>MSCI: Payment Scheduler/title>
+        <meta name="description" content="MSCI: Payment Scheduler" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
