@@ -58,6 +58,7 @@ export default function UserInterface() {
         response.json().then((data) => {
           let dates = data.USholidays.map((event) => {
             const eventDate = new Date(event[0]);
+            eventDate.setDate(eventDate.getDate() + 1); // Add 1 day to the date
             return {
               date: eventDate,
               title: event[1],
