@@ -69,6 +69,30 @@ export default function UserInterface() {
     );
   };
 
+  function sendData() {
+    fetch("http://localhost:5000/paymentscheduler/send-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        country: country,
+        startDate: new Date(startDate).toLocaleDateString(),
+        endDate: new Date(endDate).toLocaleDateString(),
+        frequency: frequency,
+        businessDayRule: businessDayRule,
+        endMonthRule: endMonthRule
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
   return (
     <Box sx={{ width: "60%" }}>
       <h1>MSCI: Payment Scheduler</h1>
@@ -179,10 +203,11 @@ export default function UserInterface() {
 
         <Box sx={{ marginLeft: "auto" }}>
           <button onClick={handleClick}>Calculate!</button>
+          <button onClick={sendData}>Send Data to Flask App</button>
         </Box>
       </Box>
 
-      <Box fullWidth>
+      <Box>
         <CalendarOutput events={events} />
       </Box>
     </Box>
