@@ -45,7 +45,13 @@ class BusinessDayRule:
             return currentDate
 
     def correctDates(data):
-        dates =  frequency.addTime(data['startDate'], data['endDate'], data['frequencyType'], data['frequencyAmount'])
+        if data['frequencyType'] == "Days":
+            freq = 2
+        if data['frequencyType'] == "Months":
+            freq = 1
+        else:
+            freq = 0
+        dates =  frequency.addTime(data['startDate'], data['endDate'], freqs, data['frequencyAmount'])
         for date in dates:
             dates[date] = BusinessDayRule.dayChange(data['businessDayRule'], date, data['country'])
         
@@ -162,7 +168,7 @@ class holidaysTest:
         
         return currentHolidays
 
-
+data['frequency']
     
 
 
