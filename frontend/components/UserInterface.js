@@ -17,12 +17,23 @@ export default function UserInterface() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
+  const [frequencyType, setFrequencyType] = useState("");
+  const [frequencyAmount, setFrequencyAmount] = useState("");
+
   const [country, setCountry] = React.useState("");
   const [frequency, setFrequency] = React.useState("");
   const [businessDayRule, setBusinessDayRule] = React.useState("");
   const [endMonthRule, setEndMonthRule] = React.useState(false);
 
   const [events, setEvents] = useState([]);
+
+  const handleFrequencyAmountChange = (event) => {
+    const inputVal = event.target.value;
+    // Validate if the input is a positive number or not
+    if (!isNaN(inputVal) && inputVal >= 0) {
+      setFrequencyAmount(inputVal);
+    }
+  };
 
   const handleClick = async () => {
     console.log(
@@ -81,12 +92,22 @@ export default function UserInterface() {
         endDate: new Date(endDate).toLocaleDateString(),
         frequency: frequency,
         businessDayRule: businessDayRule,
-        endMonthRule: endMonthRule
+        endMonthRule: endMonthRule,
+        frequencyType: frequencyType,
+        frequencyAmount: frequencyAmount,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        let dates = data.dates.map((event) => {
+          const eventDate = new Date(event);
+          return {
+            date: eventDate,
+            title: event[1],
+          };
+        });
+        setEvents(dates);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -150,7 +171,7 @@ export default function UserInterface() {
             margin: 2,
           }}
         >
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -166,7 +187,35 @@ export default function UserInterface() {
               <MenuItem value={"Monthly"}>Monthly</MenuItem>
               <MenuItem value={"Weekly"}>Weekly</MenuItem>
             </Select>
+          </FormControl> */}
+
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              Frequency Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={frequencyType}
+              label="Frequency Type"
+              onChange={(event) => setFrequencyType(event.target.value)}
+            >
+              <MenuItem value={"Days"}>Days</MenuItem>
+              <MenuItem value={"Months"}>Months</MenuItem>
+              <MenuItem value={"Years"}>Years</MenuItem>
+            </Select>
           </FormControl>
+
+          <TextField
+            id="outlined-number"
+            label="Number"
+            type="number"
+            value={frequencyAmount}
+            onChange={(event) => handleFrequencyAmountChange(event)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
