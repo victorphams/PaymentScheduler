@@ -29,7 +29,7 @@ class BusinessDayRule:
             # Modified Following: next business day, but it doesn’t go to the following month, stops at last business day of the month.
             elif currentRule == "Modified Following":
                 currentDateArray += frequency.addUnit(currentDateArray, 2, 1)
-                if currentDatetime.month() != previousDatetime.month():
+                if currentDatetime.month != previousDatetime.month:
                     while currentDatetime.weekday() >= 5 or currentDatetime in currentHolidays:
                         currentDateArray = frequency.addUnit(
                             currentDateArray, 2, -1)
@@ -38,7 +38,7 @@ class BusinessDayRule:
             # Modified Preceding: previous business day, but it doesn’t go to the previous month, stops at last first day of the month.
             elif currentRule == "Modified Preceding":
                 currentDateArray = frequency.addUnit(currentDateArray, 2, -1)
-                if currentDatetime.month() != previousDatetime.month():
+                if currentDatetime.month != previousDatetime.month:
                     while currentDatetime.weekday() >= 5 or currentDatetime in currentHolidays:
                         currentDateArray = frequency.addUnit(
                             currentDateArray, 2, 1)

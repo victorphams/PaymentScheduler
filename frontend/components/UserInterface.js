@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Box,
@@ -7,6 +7,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
+  Typography,
 } from "@mui/material";
 import CalendarOutput from "./CalendarOutput";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -26,6 +27,8 @@ export default function UserInterface() {
   const [endMonthRule, setEndMonthRule] = React.useState(false);
 
   const [events, setEvents] = useState([]);
+  const [holidays, setHolidays] = useState([]);
+
 
   const handleFrequencyAmountChange = (event) => {
     const inputVal = event.target.value;
@@ -36,34 +39,6 @@ export default function UserInterface() {
   };
 
   const handleClick = async () => {
-    console.log(
-      "Country: " +
-        country +
-        "\n" +
-        "Start Date: " +
-        new Date(startDate).toLocaleDateString("en-US", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-        }) +
-        "\n" +
-        "End Date: " +
-        new Date(endDate).toLocaleDateString("en-US", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric",
-        }) +
-        "\n" +
-        "Frequency: " +
-        frequency +
-        "\n" +
-        "Business Day Rule: " +
-        businessDayRule +
-        "\n" +
-        "End of Month Rule: " +
-        endMonthRule
-    );
-
     fetch("http://localhost:5000/paymentscheduler/usholidays").then(
       (response) =>
         response.json().then((data) => {
@@ -75,7 +50,7 @@ export default function UserInterface() {
               title: event[1],
             };
           });
-          setEvents(dates);
+          setHolidays(dates);
         })
     );
   };
@@ -113,6 +88,10 @@ export default function UserInterface() {
         console.error("Error:", error);
       });
   }
+
+  useEffect(() => {
+    handleClick();
+  }, []);
 
   return (
     <Box sx={{ width: "60%" }}>
@@ -251,13 +230,23 @@ export default function UserInterface() {
         </Box>
 
         <Box sx={{ marginLeft: "auto" }}>
-          <button onClick={handleClick}>Calculate!</button>
-          <button onClick={sendData}>Send Data to Flask App</button>
+          <button onClick={handleClick}>Test Holidays!</button>
+
+          <button onClick={sendData}>Calculate!</button>
         </Box>
       </Box>
 
       <Box>
-        <CalendarOutput events={events} />
+        <CalendarOutput events={events} holidays={holidays} />
+        <Typography variant="h3" backgroundColor="#ffff76">
+          Current Date
+        </Typography>
+        <Typography variant="h3" backgroundColor="#1087ff">
+          Scheduled Dates
+        </Typography>
+        <Typography variant="h3" backgroundColor="green">
+          Holidays
+        </Typography>
       </Box>
     </Box>
   );

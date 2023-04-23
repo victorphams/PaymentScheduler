@@ -1,5 +1,5 @@
 
-from flask import Flask, request
+from flask import Flask, request, make_response
 from flask import jsonify
 from flask_cors import CORS
 import holidays
@@ -22,6 +22,14 @@ def addHolidays_USA():
         print(USholidays)
 
     return jsonify({'USholidays': USholidays})
+
+@app.route('/paymentscheduler/send-data', methods=['OPTIONS'])
+def handle_options():
+    response = make_response()
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Methods', 'POST')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return response
 
 
 @app.route('/paymentscheduler/send-data', methods=['POST'])
@@ -56,3 +64,7 @@ def send_data():
     print("We return: ", dates)
 
     return jsonify({'dates': dates})
+
+
+if __name__ == '__main__':
+    app.run(port=3000)  # Set the port to 3000
