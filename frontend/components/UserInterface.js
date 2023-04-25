@@ -230,8 +230,6 @@ export default function UserInterface() {
         </Box>
 
         <Box sx={{ marginLeft: "auto" }}>
-          <button onClick={handleClick}>Test Holidays!</button>
-
           <button onClick={sendData}>Calculate!</button>
         </Box>
       </Box>
